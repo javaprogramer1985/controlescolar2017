@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../Plantillas/plantillaContenido.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+            <ui:define name="content">
+                <h:form>
+                    <p:growl id="growl" sticky="true" severity="info,fatal" showDetail="true" life="3000" />
+
+                    <p:wizard flowListener = "#{usuariosControlador.onFlowProcess}" >
+                        <p:tab id="personal" title="Personal">
+                            <p:panel header = "Datos personales" >
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <h:outputText value="Nombre: *"/>
+                                    <p:inputText value="#{usuariosControlador.usuario.usuarioNombre}" required="true" requiredMessage="Nombre es un campo requerido"/>
+
+                                    <h:outputText value="Apellidos: *"/>
+                                    <p:inputText value="#{usuariosControlador.usuario.usuarioApellidos}" required="true" requiredMessage="Apellidos es un campo requerido"/>
+
+                                    <h:outputText value="Saltar al final"/>
+                                    <h:selectBooleanCheckbox value="#{usuariosControlador.skip}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="cuenta" title="Cuenta">
+                            <p:panel header = "Datos de la cuenta" >
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <h:outputText value="Usuario: *"/>
+                                    <p:inputText value="#{usuariosControlador.usuariopk.usuarioUsu}" required="true" requiredMessage="Usuario es un campo requerido"/>
+
+                                    <h:outputLabel for="pwd1" value="Contraseña: *" />
+                                    <p:password id="pwd1" value="#{usuariosControlador.usuariopk.usuarioPass}" match="pwd2" label="Contraseña 1" required="true" 
+                                                feedback="true"
+                                                promptLabel="Introduzca la contraseña" weakLabel="Baja"
+                                                goodLabel="Buena" strongLabel="Fuerte" validatorMessage="Las claves no coinciden" />
+
+                                    <h:outputLabel for="pwd2" value="Repetir contraseña: *" />
+                                    <p:password id="pwd2" value="#{usuariosControlador.usuariopk.usuarioPass}" label="Contraseña 2" required="true" 
+                                                feedback="true"
+                                                promptLabel="Repetir la contraseña" weakLabel="Baja"
+                                                goodLabel="Buena" strongLabel="Fuerte" />
+
+                                    <h:outputText value="Alta"/>
+                                    <p:calendar id="mask" value="#{usuariosControlador.usuario.usuarioFechaAlta}" pattern="dd-MM-yyyy" mask="true"/>
+
+                                    <h:selectOneMenu id="tipoUsuario" value="#{tipoUsuarioBean.tipo}">
+                                        
+                                    </h:selectOneMenu>
+                                    <h:outputText value="Saltar al final"/>                                    
+                                    <h:selectBooleanCheckbox value="#{usuariosControlador.skip}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="confirmacion" title="Confirmacion">
+                            <p:panel header="Confirmacion">
+                                <h:panelGrid columns="1" columnClasses="grid, grid">
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        <h:outputText value="Nombre:"/>
+                                        <h:outputText value="#{usuariosControlador.usuario.usuarioNombre}" styleClass="outputLabel"/>
+
+                                        <h:outputText value="Apellidos"/>
+                                        <h:outputText value="#{usuariosControlador.usuario.usuarioApellidos}" styleClass="outputLabel"/>
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        <h:outputText value="Usuario:"/>
+                                        <h:outputText value="#{usuariosControlador.usuariopk.usuarioUsu}" styleClass="outputLabel"/>
+
+                                        <h:outputText value="Contraseña:"/>
+                                        <h:outputText value="#{usuariosControlador.usuariopk.usuarioPass}" styleClass="outputLabel"/>
+
+                                        <h:outputText value="Alta"/>
+                                        <h:outputText value="#{usuariosControlador.usuario.usuarioFechaAlta}" styleClass="outputLabel"/>
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+                                <p:commandButton value="Guardar nuevo usuario" actionListener="#{usuariosControlador.registrar()}" update="growl" process="@this"/>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard> 
+                </h:form> 
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

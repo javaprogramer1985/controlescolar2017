@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' httpequiv="Content Type"/>
+            <title><h:outputText value="Inicio"/></title>
+        </f:facet>
+    </h:head>
+    <h:body>
+        <p:panel id="basic" header="::.. B i e n v e n i d o ..::" style="text-align: center; font-family: Arial, Helvetica, Verdana; font-size: 18px"  >
+            <p:layout id="fullPage" fullPage="false" style="height: 750px;">
+                <p:layoutUnit position="center"> 
+                    <p:panelGrid columns="1" layout="grid">
+                        <h:outputText style="font-size: 18px; font-family: Georgia, Cambria, Times, 'Times New Roman';" 
+                                      value="#{escuelaControlador.listarPK(1).escuelaNombre}" /> 
+                        <h:outputText style="font-size: 18px; font-family: Georgia, Cambria, Times, 'Times New Roman';" 
+                                      value="#{escuelaControlador.escuela.escuelaCT}"/> 
+
+                        <h:outputText 
+                            style="font-size: 12px; font-family: Georgia, Cambria, Times, 'Times New Roman';" 
+                            value="Selecciona el tipo de usuario" />    
+                    </p:panelGrid>
+                    <p></p>
+                    <p:panelGrid  id="GridOpcionesdeAcceso" columns="2" layout="grid" style="width: 30%; margin: 0 auto;">
+                        <h:outputLink value="javascript:void(0)" onclick="PF('dlgAccesoAPersonal').show();" title="Acceso para administradores y profesores">                            
+                            <p:graphicImage  name="./images/administrator.png" />                           
+                        </h:outputLink>
+
+                        <h:outputLink value="javascript:void(1)" onclick="PF('dlgEstudiante').show();" title="Acceso para estudiantes">
+                            <p:graphicImage name="./images/elementary_school.png" />
+                        </h:outputLink>
+
+                    </p:panelGrid>
+
+                </p:layoutUnit>
+            </p:layout>
+        </p:panel>
+
+        <!-- El profesor debera ingresar usuario y contraseña -->
+        <!-- El administrador debera ingresar usuario y contraseña -->
+        <h:form id="AdministradorProfesor" style="text-align: center">            
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" /> 
+            <p:dialog header="Acceso Controlado" widgetVar="dlgAccesoAPersonal" resizable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="username" value="Usuario:" />
+                    <p:inputText id="username" value="#{usuariosControlador.usuariopk.usuarioUsu}" required="true" label="username" />
+
+                    <h:outputLabel for="password" value="Contraseña:" />
+                    <p:password id="password" value="#{usuariosControlador.usuariopk.usuarioPass}" required="true" label="password" />
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Login" update="growl" action="#{usuariosControlador.login}"
+                                         oncomplete="handleLoginRequest(xhr, status, args)" />
+                    </f:facet>  
+                </h:panelGrid>
+            </p:dialog>            
+        </h:form>
+        <!-- El estudiante solo con su matricula -->
+        <h:form id="Estudiante" style="text-align: center">             
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" /> 
+            <p:dialog header="Acceso a estudiantes" widgetVar="dlgEstudiante" resizable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="password" value="Matricula:" />
+                    <p:password id="password" value="" required="true" label="password" />
+                    <f:facet name="footer">
+                        <p:commandButton value="Login" update="growl" actionListener="#{usuariosControlador.login}"
+                                         oncomplete="handleLoginRequest1(xhr, status, args)" />
+                    </f:facet>  
+                </h:panelGrid>
+            </p:dialog>            
+        </h:form>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+                    PF('dlgAccesoAPersonal').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgAccesoAPersonal').hide();
+                    $('#loginLink').fadeOut();
+                }
+
+            }
+        </script>
+        <br />
+        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+    </h:body>
+</html>

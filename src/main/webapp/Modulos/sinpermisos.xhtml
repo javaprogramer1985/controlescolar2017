@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Plantillas/plantillasinpermisos.xhtml">
+            <ui:define name="content">
+                <p:layout fullPage="true">
+                    <p:layoutUnit position="center">
+                        <h:form>
+                            <p:growl id="msgs" showDetail="true" />
+                            <p:panel id="basic" header="¡Aviso importante!" footer="Se ha detectado inactivada en tu cuenta" style="margin-bottom:20px;text-align: center">
+                                <!--h:panelGrid columns="2" cellpadding="10"-->
+                                <p:panelGrid columns="1" layout="grid">
+                                    <h:outputText
+                                        value="Hola Estimado usuario. para seguir trabajando en el sistema de control escolar debes iniciar sesion" />
+                                    <p></p>
+                                    <h:outputText
+                                        value="Por seguridad tu sesion se cierra si durante 30 segundos se detecta inactividad" />
+                                    <p:commandButton value="Iniciar Sesion" action="#{controladorSinPermisos.redirect_login()}"/>
+                                    <!--/h:panelGrid-->
+                                </p:panelGrid>
+                            </p:panel>
+
+
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
